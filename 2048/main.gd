@@ -1,45 +1,40 @@
 extends Node2D
+const game_enum = preload("res://game_enum.gd")
 
 @export_category("Balls")
-@export var Ball_1 : PackedScene
-@export var Ball_2 : PackedScene
-@export var Ball_3 : PackedScene
-@export var Ball_4 : PackedScene
-@export var Ball_5 : PackedScene
-@export var Ball_6 : PackedScene
-@export var Ball_7 : PackedScene
-@export var Ball_8 : PackedScene
-@export var Ball_9 : PackedScene
-@export var Ball_10 : PackedScene
-@export var Ball_11 : PackedScene
-@export var Ball_12 : PackedScene
+@export var Ball : PackedScene
+signal game_state
+signal score_change
 
 var playing = false
 var score = 0
-signal score_change
 
-var nb_balls = 9
 var speed = 200
 var can_drop = true
 
-
-var balls = []
 var hand_ball = null
 var fuse_queue = []
 
+
+
 func _ready():
-	balls = [Ball_1, Ball_2, Ball_3, Ball_4, Ball_5, Ball_6, Ball_7, Ball_8, Ball_9, Ball_10, Ball_11, Ball_12]
+	if Ball == null:
+		push_error("Ball can't be null")
 	start_game()
 
 func start_game():
+	get_tree().call_group("ball", "queue_free")	
 	hand_ball = create_ball(randi() % 4, $Spawner.position)
 	hand_ball.remove_collision()
 	score = 0
-	playing = true	
+	score_change.emit(0)
 	
+	playing = true	
+	game_state.emit(game_enum.PLAYING)
 
 func create_ball(id, pos):
-	var ball = balls[id].instantiate()
+	var ball = Ball.instantiate()
+	ball.set_id(id)
 	ball.position = pos
 	ball.connect("fused", _on_ball_fused)
 	ball.connect("exit_screen", _on_ball_offscreen)
@@ -49,10 +44,9 @@ func create_ball(id, pos):
 	return ball
 
 func _on_ball_offscreen():
-	get_tree().call_group("ball", "queue_free")
+	hand_ball.queue_free()	
 	playing = false
-	
-	
+	game_state.emit(game_enum.GAMEOVER)
 
 func _process(delta):
 	if playing:
@@ -90,9 +84,10 @@ func _on_ball_fused(item_1, item_2, id):
 		i = i + 1
 	if in_queue:
 		return
+	$Pop.play()
 	fuse_queue.append(item_1)
 	fuse_queue.append(item_2)
-	var new_i = (id + 1) % nb_balls
+	var new_i = id + 1
 	var pos = (item_1.position + item_2.position) / 2
 	var velocity = (item_1.linear_velocity + item_2.linear_velocity) / 2
 	item_1.queue_free()
@@ -102,8 +97,9 @@ func _on_ball_fused(item_1, item_2, id):
 	ball.linear_velocity = velocity
 
 func add_to_score(points):
-	score += points
-	score_change.emit(score)
+	if playing:
+		score += points
+		score_change.emit(score)
 
 func _on_ball_spawn_timer_timeout():
 	if hand_ball != null:

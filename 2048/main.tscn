@@ -1,19 +1,10 @@
-[gd_scene load_steps=17 format=3 uid="uid://dmpnq76ao5llt"]
+[gd_scene load_steps=8 format=3 uid="uid://dmpnq76ao5llt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_4wbcl"]
-[ext_resource type="PackedScene" uid="uid://cukpkvthocysq" path="res://Balls/Ball_1.tscn" id="2_4p6ro"]
-[ext_resource type="PackedScene" uid="uid://du4s2k74rvpko" path="res://Balls/Ball_2.tscn" id="3_k7jy7"]
-[ext_resource type="PackedScene" uid="uid://bq32snjdjpnim" path="res://Balls/Ball_3.tscn" id="4_vwa5w"]
+[ext_resource type="PackedScene" uid="uid://cukpkvthocysq" path="res://Balls/Ball.tscn" id="2_uedb8"]
+[ext_resource type="AudioStream" uid="uid://cmxhmbxilhqut" path="res://pop.wav" id="5_mx4hm"]
 [ext_resource type="Texture2D" uid="uid://bxk2heq6y28v0" path="res://icon.svg" id="6_o0m1t"]
-[ext_resource type="PackedScene" uid="uid://da7eb4baqs54e" path="res://Balls/Ball_5.tscn" id="6_y62q8"]
-[ext_resource type="PackedScene" uid="uid://7uik58hlwi57" path="res://Balls/Ball_6.tscn" id="7_rrtwt"]
 [ext_resource type="PackedScene" uid="uid://decsdnghcoovq" path="res://hud.tscn" id="7_v3kwo"]
-[ext_resource type="PackedScene" uid="uid://d2iabvvs638ye" path="res://Balls/Ball_7.tscn" id="8_rr0t3"]
-[ext_resource type="PackedScene" uid="uid://bewocxi7hy03n" path="res://Balls/Ball_8.tscn" id="9_pdwmk"]
-[ext_resource type="PackedScene" uid="uid://ck3ttcviavhm0" path="res://Balls/Ball_9.tscn" id="10_wxvw8"]
-[ext_resource type="PackedScene" uid="uid://cqqsek348dr5k" path="res://Balls/Ball_10.tscn" id="11_fb8uv"]
-[ext_resource type="PackedScene" uid="uid://cqqsek348dr5k" path="res://Balls/Ball_11.tscn" id="12_dtceh"]
-[ext_resource type="PackedScene" uid="uid://cqqsek348dr5k" path="res://Balls/Ball_12.tscn" id="13_381t8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pvunj"]
 size = Vector2(1000, 20)
@@ -23,18 +14,7 @@ size = Vector2(720, 20)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_4wbcl")
-Ball_1 = ExtResource("2_4p6ro")
-Ball_2 = ExtResource("3_k7jy7")
-Ball_3 = ExtResource("4_vwa5w")
-Ball_4 = ExtResource("13_381t8")
-Ball_5 = ExtResource("6_y62q8")
-Ball_6 = ExtResource("7_rrtwt")
-Ball_7 = ExtResource("8_rr0t3")
-Ball_8 = ExtResource("9_pdwmk")
-Ball_9 = ExtResource("10_wxvw8")
-Ball_10 = ExtResource("11_fb8uv")
-Ball_11 = ExtResource("12_dtceh")
-Ball_12 = ExtResource("13_381t8")
+Ball = ExtResource("2_uedb8")
 
 [node name="Spawner" type="Node2D" parent="."]
 position = Vector2(960, 0)
@@ -87,5 +67,9 @@ wait_time = 0.4
 one_shot = true
 
 [node name="hud" parent="." instance=ExtResource("7_v3kwo")]
+
+[node name="Pop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_mx4hm")
+max_polyphony = 5
 
 [connection signal="timeout" from="Ball_spawn_timer" to="." method="_on_ball_spawn_timer_timeout"]

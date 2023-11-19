@@ -4,10 +4,52 @@ signal fused(item_1, item_2, id)
 signal exit_screen
 
 @export_category("parameters")
-@export var id = 0
 
+var id = -1
 var layer = 1
 var mask = 1
+
+func size_from_id(x):
+	return 0.1 * (x + 1)
+
+const colors = [Color(0, 0, 0),
+	Color(0, 0.5, 1),
+	Color(1, 1, 0),
+	Color(1, 1, 0.5),
+	Color(0.5, 0.5, 0),
+	Color(1, 0.5, 0),
+	Color(0.5, 1, 0.5),
+	Color(0, 0, 0.5),
+	Color(1, 0, 1),
+	Color(1, 0.5, 0.5),
+	Color(0, 0.5, 0),
+	Color(0.5, 0.5, 0.5),
+	Color(0.5, 0.5, 1),
+	Color(0.5, 0, 1),
+	Color(0, 1, 0.5),
+	Color(0.5, 0, 0.5),
+	Color(1, 0, 0),
+	Color(1, 0, 0.5),
+	Color(0, 1, 0),
+	Color(0.5, 1, 1),
+	Color(0.5, 0, 0),
+	Color(1, 0.5, 1),
+	Color(0, 0, 1),
+	Color(0.5, 1, 0),
+	Color(0, 0.5, 0.5),
+	Color(0, 1, 1),
+	Color(1, 1, 1)]
+
+func color_from_id(x):
+	return colors[x % len(colors)]	
+
+func set_id(x):
+	var size = size_from_id(x)
+	var size_vec = Vector2(size, size)
+	$Sprite.scale = size_vec
+	$CollisionShape2D.scale = size_vec
+	$Sprite.modulate = color_from_id(x)
+	id = x
 
 func _ready():
 	$VisibleOnScreenNotifier2D.connect("screen_exited", _on_exit_screen)
