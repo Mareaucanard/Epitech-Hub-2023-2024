@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://decsdnghcoovq"]
+
+[ext_resource type="Script" path="res://hud.gd" id="1_drk8l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wn7tj"]
+font_size = 60
+font_color = Color(0.843137, 0.843137, 0.843137, 1)
+
+[node name="hud" type="CanvasLayer"]
+script = ExtResource("1_drk8l")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -283.0
+offset_top = -481.0
+offset_right = -55.0
+offset_bottom = -383.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_wn7tj")

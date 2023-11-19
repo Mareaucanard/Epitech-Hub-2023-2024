@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=3 uid="uid://cm85s7ml56vn4"]
+
+[ext_resource type="Script" path="res://mob.gd" id="1_6m7gl"]
+[ext_resource type="PackedScene" uid="uid://ccj73p4dxbia7" path="res://art/mob.glb" id="1_vpiav"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gvw3u"]
+size = Vector3(2.47934, 1.0735, 3.47135)
+
+[sub_resource type="Animation" id="Animation_1ju7b"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_8rtsv"]
+resource_name = "bob"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.7, 1.1),
+"transitions": PackedFloat32Array(0.450627, 0.466516, 2.07053),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.65, 0), Vector3(0, 0.35, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.5, 1.1),
+"transitions": PackedFloat32Array(0.450627, 0.466516, 2.07053),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.139626, 0, 0), Vector3(-0.15708, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w75g0"]
+_data = {
+"RESET": SubResource("Animation_1ju7b"),
+"bob": SubResource("Animation_8rtsv")
+}
+
+[node name="Mob" type="CharacterBody3D" groups=["mob"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_6m7gl")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Character" parent="Pivot" instance=ExtResource("1_vpiav")]
+transform = Transform3D(1, 0, 0, 0, 0.98836, 0.152133, 0, -0.152133, 0.98836, 0, 0.3605, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.288966, 0.249168)
+shape = SubResource("BoxShape3D_gvw3u")
+
+[node name="VisibleNotifer" type="VisibleOnScreenNotifier3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.343581, 0.286274)
+visible = false
+aabb = AABB(-1.24605, -0.625864, -1.64045, 2.49209, 1.25173, 3.28089)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "bob"
+libraries = {
+"": SubResource("AnimationLibrary_w75g0")
+}
+
+[connection signal="screen_exited" from="VisibleNotifer" to="." method="_on_visible_notifer_screen_exited"]

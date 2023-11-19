@@ -1,0 +1,123 @@
+[gd_scene load_steps=12 format=3 uid="uid://bj2xniyyv8yvg"]
+
+[ext_resource type="PackedScene" uid="uid://s2t7svjqxgcd" path="res://player.tscn" id="1_fncwk"]
+[ext_resource type="Script" path="res://main.gd" id="1_y82yq"]
+[ext_resource type="PackedScene" uid="uid://cm85s7ml56vn4" path="res://mob.tscn" id="2_ve1tw"]
+[ext_resource type="FontFile" uid="uid://djnixdo7p5p1r" path="res://fonts/Montserrat-Medium.ttf" id="4_3mlh8"]
+[ext_resource type="Script" path="res://ScoreLabel.gd" id="5_e170h"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jfteb"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1msgh"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frjgx"]
+vertex_color_is_srgb = true
+albedo_color = Color(0.968627, 0.545098, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ogmj2"]
+material = SubResource("StandardMaterial3D_frjgx")
+
+[sub_resource type="Curve3D" id="Curve3D_nhmbq"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -13.5402, 0, -16.1683, 0, 0, 0, 0, 0, 0, 13.513, 0, -16.2542, 0, 0, 0, 0, 0, 0, 13.5989, 0, 14.0626, 0, 0, 0, 0, 0, 0, -13.6261, 0, 14.0626, 0, 0, 0, 0, 0, 0, -13.5402, 0, -16.1683),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="LabelSettings" id="LabelSettings_8ssbc"]
+font = ExtResource("4_3mlh8")
+font_size = 22
+font_color = Color(0, 0, 0, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_y82yq")
+mob_scene = ExtResource("2_ve1tw")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_jfteb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_1msgh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.423219, 0.906027, 0, -0.906027, -0.423219, 0, 21.3312, 16.5531)
+shadow_enabled = true
+shadow_blur = 0.5
+
+[node name="Player" parent="." instance=ExtResource("1_fncwk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.983236, 0)
+collision_mask = 6
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 19)
+projection = 1
+size = 19.0
+far = 300.0
+
+[node name="Cylinders" type="Node3D" parent="."]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(-0.992828, -0.119548, 0, 0.119548, -0.992828, 0, 0, 0, 1, -13.5, 0, 14)
+mesh = SubResource("CylinderMesh_ogmj2")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(-0.992828, -0.119548, 0, 0.119548, -0.992828, 0, 0, 0, 1, 13.5, 0, 14)
+mesh = SubResource("CylinderMesh_ogmj2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(-0.992828, -0.119548, 0, 0.119548, -0.992828, 0, 0, 0, 1, -13.5, 0, -16.0591)
+mesh = SubResource("CylinderMesh_ogmj2")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Cylinders"]
+transform = Transform3D(-0.992828, -0.119548, 0, 0.119548, -0.992828, 0, 0, 0, 1, 13.5, 0, -16.0591)
+mesh = SubResource("CylinderMesh_ogmj2")
+
+[node name="SpawnPath" type="Path3D" parent="."]
+curve = SubResource("Curve3D_nhmbq")
+
+[node name="SpawnLocation" type="PathFollow3D" parent="SpawnPath"]
+transform = Transform3D(0.00317521, 0, -0.999995, 0, 1, 0, 0.999995, 0, 0.00317521, -13.5402, 0, -16.1683)
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="UserInterface" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Retry" type="ColorRect" parent="UserInterface"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.376471)
+
+[node name="ScoreLabel" type="Label" parent="UserInterface"]
+layout_mode = 0
+offset_right = 718.0
+offset_bottom = 31.0
+text = "Score: 0"
+label_settings = SubResource("LabelSettings_8ssbc")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("5_e170h")
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
