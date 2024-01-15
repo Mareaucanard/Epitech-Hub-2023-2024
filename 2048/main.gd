@@ -15,8 +15,6 @@ var can_drop = true
 var hand_ball = null
 var fuse_queue = []
 
-
-
 func _ready():
 	if Ball == null:
 		push_error("Ball can't be null")
@@ -44,7 +42,9 @@ func create_ball(id, pos):
 	return ball
 
 func _on_ball_offscreen():
-	hand_ball.queue_free()	
+	if hand_ball != null:
+		hand_ball.queue_free()	
+	
 	playing = false
 	game_state.emit(game_enum.GAMEOVER)
 
@@ -61,6 +61,7 @@ func _process(delta):
 			$Spawner.position.x += speed * delta 
 		if Input.is_action_pressed("ui_left"):
 			$Spawner.position.x -= speed * delta
+		$Spawner.position.x = clamp($Spawner.position.x, 10, 1920 - 10)
 		if hand_ball != null:
 			hand_ball.position = $Spawner/Ball_spawn.global_position
 	else:
@@ -105,3 +106,10 @@ func _on_ball_spawn_timer_timeout():
 	if hand_ball != null:
 		hand_ball.visible = true
 	can_drop = true
+
+func write_highscore():
+	pass
+
+func read_highscore():
+	pass
+	

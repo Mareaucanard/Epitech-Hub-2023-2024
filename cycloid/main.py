@@ -1,5 +1,6 @@
 from math import cos, sin, pi
 from PIL import Image, ImageDraw
+import sys
 
 class Circle():
     def __init__(self, x, y, radius):
@@ -37,7 +38,7 @@ class Circle():
     def store(self):
         self.p_pos.append(self.p)
 
-display = False
+display = "--display" in sys.argv
 dimensions = [1920, 1080]
 c = Circle(-100, dimensions[1] / 2, 100)
 

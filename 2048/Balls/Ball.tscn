@@ -10,7 +10,7 @@ radius = 215.0
 [node name="Ball_1" type="RigidBody2D"]
 mass = 0.1
 physics_material_override = ExtResource("1_2ihiv")
-max_contacts_reported = 1
+max_contacts_reported = 4
 contact_monitor = true
 script = ExtResource("1_073kr")
 

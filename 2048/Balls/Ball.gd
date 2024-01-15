@@ -48,6 +48,7 @@ func set_id(x):
 	var size_vec = Vector2(size, size)
 	$Sprite.scale = size_vec
 	$CollisionShape2D.scale = size_vec
+	
 	$Sprite.modulate = color_from_id(x)
 	id = x
 

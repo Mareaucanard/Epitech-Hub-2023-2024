@@ -5,9 +5,7 @@ from termcolor import colored
 from copy import copy
 from collections import Counter
 from itertools import chain
-from tqdm import tqdm
 import operator
-import sys
 
 
 class Wordle:
@@ -203,7 +201,7 @@ class Agent:
             self.calc_letter_frequency(possible_words)
             self.sort_by_word_commonality(possible_words)
             if (len(self.sorted_words) == 0):
-                print("You must have made an error somewhere, not words are possible.")
+                print("You must have made an error somewhere, no words are possible.")
                 return False
             self.display_word_table()
             response = False

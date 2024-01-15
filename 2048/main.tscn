@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmpnq76ao5llt"]
+[gd_scene load_steps=9 format=3 uid="uid://dmpnq76ao5llt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_4wbcl"]
 [ext_resource type="PackedScene" uid="uid://cukpkvthocysq" path="res://Balls/Ball.tscn" id="2_uedb8"]
@@ -11,6 +11,9 @@ size = Vector2(1000, 20)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j0jkr"]
 size = Vector2(720, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p24eh"]
+size = Vector2(5000, 2000)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_4wbcl")
@@ -31,7 +34,7 @@ gravity_scale = 0.0
 freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(960, 864)
+position = Vector2(959, 1056)
 shape = SubResource("RectangleShape2D_pvunj")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
@@ -41,7 +44,7 @@ scale = Vector2(7.76563, 0.148438)
 texture = ExtResource("6_o0m1t")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(467, 520)
+position = Vector2(466, 712)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_j0jkr")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
@@ -52,7 +55,7 @@ scale = Vector2(5.55899, 0.173241)
 texture = ExtResource("6_o0m1t")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(1450, 516)
+position = Vector2(1449, 708)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_j0jkr")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
@@ -61,6 +64,11 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 position = Vector2(-2.49309, 0.912619)
 scale = Vector2(5.55899, 0.173241)
 texture = ExtResource("6_o0m1t")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(1014, -997)
+shape = SubResource("RectangleShape2D_p24eh")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Ball_spawn_timer" type="Timer" parent="."]
 wait_time = 0.4
