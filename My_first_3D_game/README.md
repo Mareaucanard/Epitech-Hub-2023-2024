@@ -1,6 +1,6 @@
 # My first 3D game
 
-Follows https://docs.godotengine.org/en/stable/getting_started/first_3d_game/index.html\
+Follows [the official tutorial](https://docs.godotengine.org/en/stable/getting_started/first_3d_game/index.html)\
 Still has little modification :)
 
 Move around with the arrows keys and jump on the creeps to earn points
